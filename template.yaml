@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  FileBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders: ['*']
+            AllowedMethods: [GET, PUT, POST]
+            AllowedOrigins: ['*']
+
+  # Single Lambda to handle both API routes
+  FileApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: handler.lambda_handler
+      Runtime: python3.12
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref FileBucket
+      Policies:
+        - S3CrudPolicy: # Granting CRUD access to the bucket
+            BucketName: !Ref FileBucket
+      Events:
+        UploadRoute:
+          Type: HttpApi
+          Properties:
+            Path: /files
+            Method: POST
+        DownloadRoute:
+          Type: HttpApi
+          Properties:
+            Path: /files/{objectKey}
+            Method: GET
+
+Outputs:
+  ApiEndpoint:
+    Description: "HTTP API Endpoint"
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com"
