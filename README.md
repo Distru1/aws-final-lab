@@ -1,4 +1,3 @@
-
 # S3 File Management API
 
 A serverless API to securely upload and download S3 files using Pre-signed URLs and HTTP 307 redirects.
@@ -15,7 +14,16 @@ This repository is automated via **GitHub Actions**.
 
 ## 🧪 Testing
 
-### 1. Request Upload URL (POST)
+### 1. Create a Mockup File
+
+Before testing, create a local file to upload:
+
+```bash
+echo "Hello from my local machine" > hello.txt
+
+```
+
+### 2. Request Upload URL (POST)
 
 ```bash
 # Replace "hello.txt" with your desired filename
@@ -25,7 +33,7 @@ curl -X POST <ENDPOINT>/files -H "Content-Type: application/json" -d "{\"filenam
 
 *Returns a JSON containing the `uploadUrl`.*
 
-### 2. Upload File (PUT)
+### 3. Upload File (PUT)
 
 ```bash
 # Use the URL returned from the step above (keep the quotes!)
@@ -35,7 +43,7 @@ curl -i -X PUT "<UPLOAD_URL>" --upload-file hello.txt
 
 *Uploads the local file directly to S3.*
 
-### 3. Verify Download Redirect (GET)
+### 4. Verify Download Redirect (GET)
 
 ```bash
 # Use the filename you uploaded. This command shows the redirect logic.
@@ -53,5 +61,3 @@ curl -v <ENDPOINT>/files/hello.txt
 * **Security:** Least-privilege IAM policies; SigV4 signing.
 * **Redirection:** Uses **HTTP 307** to ensure the client preserves the `GET` method when redirected to S3.
 * **Architecture:** Direct-to-S3 transfer bypasses Lambda execution and memory limits.
-
----
