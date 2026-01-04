@@ -61,3 +61,17 @@ curl -v <ENDPOINT>/files/hello.txt
 * **Security:** Least-privilege IAM policies; SigV4 signing.
 * **Redirection:** Uses **HTTP 307** to ensure the client preserves the `GET` method when redirected to S3.
 * **Architecture:** Direct-to-S3 transfer bypasses Lambda execution and memory limits.
+
+---
+
+## 📄 Project Documentation
+
+* [Project Report (Google Doc)](https://docs.google.com/document/d/1RJV_9Cfb35x-GWknntgHfZnE3a0l414_45PvGuDE5XE/edit?usp=sharing)
+
+---
+
+### A quick tip on the Google Doc link:
+
+Make sure the Google Doc's share settings are set to **"Anyone with the link can view"** before you submit it, otherwise, your grader won't be able to open it!
+
+**Would you like me to help you summarize the "Architecture Explanation" section for that Google Doc now?**
